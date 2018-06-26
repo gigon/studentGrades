@@ -1,0 +1,31 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+  <input type="text" id="txtNewVersion" value="(newVersion)"></input>
+  <button onclick="setVersion()">set version</button>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+  
+  var dbRef = firebase.database().ref();
+   
+  function setVersion(){
+    var newVersion = document.getElementById('txtNewVersion').value;
+    console.log("save newVersion: " + newVersion);
+    
+    dbRef.update({ "Version": newVersion });
+  }
+</script>
+</body>
+</html>

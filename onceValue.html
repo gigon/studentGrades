@@ -1,0 +1,30 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<input type="text" id="txtVersion" value="?"></input>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+  
+  txtVersion = document.getElementById("txtVersion");
+  var dbRef = firebase.database().ref().child('Version');
+  dbRef.once('value',snap => {
+	  var version = snap.val();
+    console.log(version);
+    txtVersion.value = version;
+  }
+  );
+</script>
+</body>
+</html>

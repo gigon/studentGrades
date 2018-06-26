@@ -1,0 +1,39 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+      
+  function addStudent(){
+    var name = document.getElementById('txtNewStudentName').value;
+    var css = document.getElementById('txtCSS').value;
+    var html = document.getElementById('txtHtml').value;
+    var react = document.getElementById('txtReact').value;
+    console.log("Adding " + name + " with css: " + css + " html: " + html + " react: " + react + "...");
+    
+    var newStudentGrades = { "CSS": css, "HTML": html, "React": react };
+    
+    var dbRefStudent = firebase.database().ref().child('Students').child(name);
+    dbRefStudent.update(newStudentGrades);
+  }
+</script>
+  <label>Name: </label><input type="text" id="txtNewStudentName" value="(newStudentName)"></input>
+  <label>CSS: </label><input type="text" id="txtCSS" value="0"></input>
+  <label>HTML: </label><input type="text" id="txtHtml" value="0"></input>
+  <label>React: </label><input type="text" id="txtReact" value="0"></input>
+
+  <button onclick="addStudent()">add student</button>
+
+</body>
+</html>
