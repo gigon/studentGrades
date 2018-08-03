@@ -1,7 +1,5 @@
 <html>
 <body>
-  <input type="text" id="txtVersion" value="?"></input>
-
 <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
 <script>
   // Initialize Firebase
@@ -21,14 +19,20 @@
   // ref to the "Version" leaf (by path):
   var versionRef = firebase.database().ref("/Version")
 
-  versionRef.once('value', function(snap) {
-      var version = snap.val();
-      document.getElementById("txtVersion").value = version;
-    }
-  );
-
-  dbRef.once('value', snap => { console.log(snap.val()); });
-
+  // get the "Version" leaf as child through its parent:
+  var versionRef1 = firebase.database().ref().child('Version');
+  // an equivalent way:
+  var versionRef2 = dbRef.child('Version');
+  
+  // get a ref's parent ref (which happens to be the database root
+  // in this case)
+  var dbRef2 = versionRef.getParent();
+  
+  // get a ref to the database root from any descendant ref
+  var dbRef3 = versionRef.getRoot();
+  
+  var areSame = (versionRef.database.ref().toJSON()
+                == versionRef.getRoot().toJSON());
 </script>
 </body>
 </html>
