@@ -23,7 +23,7 @@
     console.log("Adding " + name + " with css: " + css + " html: " + html + " react: " + react + "...");
     
     var newStudentGrades = { "CSS": css, "HTML": html, "React": react };
-    
+
     var dbRefStudent = firebase.database().ref().child('Students').child(name);
     dbRefStudent.update(newStudentGrades);
   }
@@ -33,7 +33,7 @@
   <label>HTML: </label><input type="text" id="txtHtml" value="0"></input>
   <label>React: </label><input type="text" id="txtReact" value="0"></input>
 
-  <button onclick="addStudent()">add student</button>
+  <button onclick="addStudent()">update student</button>
 
 </body>
 </html>
