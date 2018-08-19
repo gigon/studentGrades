@@ -1,0 +1,65 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<input type="text" id="txtVersion" value="?"></input>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+  
+  var dbRef = firebase.database().ref().child('Version');
+  var dbRefOnFunc;
+
+  document.addEventListener("dblclick", function() {
+    if (dbRefOnFunc) {
+      dbRef.off('value', dbRefOnFunc);
+      dbRefOnFunc = null;
+      document.getElementById("txtVersion").value = '?';
+    } else {
+      dbRefOnFunc = dbRef.on('value', function(snap) {
+        var version = snap.val();
+        document.getElementById("txtVersion").value = version;
+      } );      
+    }
+  });
+
+  var debiRef = firebase.database().ref().child('Students/Debi');
+  var debiCssRef = debiRef.child('CSS');
+
+  var debiRefOnFunc = debiRef.on('value', function(snap) {
+    var debi = snap.val();
+    console.log("Debi changed to " + debi);
+  } );
+  
+  var debiCssRefOnFunc = debiCssRef.on('value', function(snap) {
+    var css = snap.val();
+    console.log("Debi css changed to " + css);
+  } );
+  
+  document.addEventListener("dblclick", function() {
+    if (debiRefOnFunc) {
+      debiRef.off('value', debiRefOnFunc);
+      debiRefOnFunc = null;
+      console.log("debiRef is off");
+    } else if (debiCssRefOnFunc) {
+      dbRefOnFunc = dbRef.on('value', function(snap) {
+        debiCssRef.off('value', debiCssRefOnFunc);
+        debiCssRefOnFunc = null;
+        console.log("debiCssRef is off");
+      } );      
+    }
+  });
+
+</script>
+</body>
+</html>

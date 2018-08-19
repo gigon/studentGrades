@@ -24,6 +24,7 @@
   versionRef.once('value', function(snap) {
       var version = snap.val();
       document.getElementById("txtVersion").value = version;
+      console.log("snapshot key=" + snap.key);
     }
   );
 

@@ -17,14 +17,23 @@
   };
   firebase.initializeApp(config);
   
-  txtVersion = document.getElementById("txtVersion");
   var dbRef = firebase.database().ref().child('Version');
-  dbRef.on('value',snap => {
-	  var version = snap.val();
-    console.log(version);
-    txtVersion.value = version;
-  }
-  );
+  dbRef.on('value', function(snap) {
+    var version = snap.val();
+    document.getElementById("txtVersion").value = version;
+  } );
+
+  var debiCssRef = firebase.database().ref().child('Students/Debi/CSS');
+  debiCssRef.on('value', function(snap) {
+    var css = snap.val();
+    console.log("Debi css changed to " + css);
+  } );
+
+  debiCssRef.on('value', function(snap) {
+    var css = snap.val();
+    console.log("Yes, Debi css changed to " + css);
+  } );
+
 </script>
 </body>
 </html>
