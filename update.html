@@ -1,0 +1,51 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+      
+  function updateStudent(){
+    var name = document.getElementById('txtStudentName').value;
+    console.log("Updating " + name);
+    
+    var newStudentGrades = {};
+    if (!isNaN(document.getElementById('txtCSS').value)) {
+      newStudentGrades["CSS"] = parseInt(document.getElementById('txtCSS').value);
+    }
+    if (!isNaN(document.getElementById('txtHtml').value)) {
+      newStudentGrades["HTML"] = parseInt(document.getElementById('txtHtml').value);
+    }
+    if (!isNaN(document.getElementById('txtReact').value)) {
+      newStudentGrades["React"] = parseInt(document.getElementById('txtReact').value);
+    }
+
+    var dbRefStudent = firebase.database().ref().child('Students').child(name);
+
+    // update
+    dbRefStudent.update(newStudentGrades);
+  }
+
+</script>
+  <label>Name: </label><input type="text" id="txtStudentName" value="(studentName)"></input>
+  <br />
+  <label>CSS: </label><input type="text" id="txtCSS" value="na"></input>
+  <br />
+  <label>HTML: </label><input type="text" id="txtHtml" value="na"></input>
+  <br />
+  <label>React: </label><input type="text" id="txtReact" value="na"></input>
+  <br />
+  <button onclick="updateStudent()">Update Student</button>
+
+</body>
+</html>

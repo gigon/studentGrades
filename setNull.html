@@ -3,9 +3,6 @@
 <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
 </head>
 <body>
-  <input type="text" id="txtNewVersion" value="(newVersion)"></input>
-  <button onclick="setVersion()">set version</button>
-
 <script>
   // Initialize Firebase
   var config = {
@@ -17,15 +14,18 @@
     messagingSenderId: "168763914375"
   };
   firebase.initializeApp(config);
-  
-  var dbRef = firebase.database().ref();
-   
-  function setVersion(){
-    var newVersion = document.getElementById('txtNewVersion').value;
-    console.log("save newVersion: " + newVersion);
     
-    dbRef.update({ "Version": newVersion });
+  function deleteStudent(){
+    var name = document.getElementById('txtStudentName').value;
+    console.log("Deleting " + name);
+    var dbRefStudent = firebase.database().ref().child('Students').child(name);
+    dbRefStudent.set(null);
   }
 </script>
+  <label>Name: </label><input type="text" id="txtStudentName" value="(studentName)"></input>
+  <br />
+
+  <button onclick="deleteStudent()">delete student</button>
+
 </body>
 </html>

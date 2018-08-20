@@ -1,0 +1,42 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+      
+  function updateStudents(){
+    var name = document.getElementById('txtStudentName').value;
+    var name2 = document.getElementById('txtStudentName2').value;
+    console.log("Updating " + name + " and " + name2);
+    
+    // Update several paths with one call
+    var dbRefStudents = firebase.database().ref().child('Students');
+    var updates = {};    
+    updates[name + '/CSS'] = parseInt(document.getElementById('txtCSS').value);
+    updates[name2 + '/CSS'] = parseInt(document.getElementById('txtCSS').value);
+
+    dbRefStudents.update(updates);
+  }
+
+</script>
+  <label>Name: </label><input type="text" id="txtStudentName" value="(studentName)"></input>
+  <br />
+  <label>Name2: </label><input type="text" id="txtStudentName2" value="(studentName2)"></input>
+  <br />
+  <label>CSS: </label><input type="text" id="txtCSS" value="99"></input>
+  <br />
+  <button onclick="updateStudents()">Update Students CSS</button>
+
+</body>
+</html>

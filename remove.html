@@ -1,0 +1,49 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+
+  function deleteStudent(){
+    var name = document.getElementById('txtStudentName').value;
+    console.log("Deleting " + name);
+    var dbRefStudent = firebase.database().ref().child('Students').child(name);
+    dbRefStudent.remove();
+
+    // pass a callback function:
+    dbRefStudent.remove(function onDone(error) {
+      if (error) {
+        console.error('remove failed with: ' + error);
+      } else {
+        console.log('remove success');
+      }
+    });
+  }
+
+  function deleteStudentCSS(){
+    var name = document.getElementById('txtStudentName').value;
+    console.log("Deleting " + name + " CSS");
+    var dbRefStudentCSS = firebase.database().ref().child('Students/' + name).child('CSS');
+    // or same: 
+    // var dbRefStudentCSS = firebase.database().ref().child('Students/' + name + '/CSS');
+    dbRefStudentCSS.remove();
+  }
+</script>
+  <label>Name: </label><input type="text" id="txtStudentName" value="(studentName)"></input>
+  <br />
+  <button onclick="deleteStudent()">remove student</button>
+  <br />
+  <button onclick="deleteStudentCSS()">remove student CSS</button>
+</body>
+</html>
