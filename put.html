@@ -1,0 +1,34 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "studentgrades-8101e.appspot.com",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+      
+  function putImage(event) {
+    var file = event.files[0];
+    console.log("Uploading " + file.name);
+
+    var storage = firebase.storage();
+    var storageRef = storage.ref();
+    var imageRef = storageRef.child('images/' + file.name);
+    imageRef.put(file);
+  }
+
+</script>
+
+    <label>Image: </label>
+    <input id="mediaCapture" type="file" accept="image/*,capture=camera" onchange="putImage(this)"></input>
+
+</body>
+</html>
