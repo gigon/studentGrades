@@ -1,0 +1,34 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "studentgrades-8101e.appspot.com",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+      
+  function deleteFile() {
+    var filename = document.getElementById('txtFilename').value;
+    var pathReference = firebase.storage().ref().child('images/' + filename);
+
+    pathReference.delete().then(function() {
+      console.log('Deleted ' + filename); 
+    }).catch(function (err) {
+      console.error('delete ' + filename + ' error: ' + err.message + ' ' + err.code);
+    });
+  }
+
+</script>
+  <label>File name: </label><input type="text" id="txtFilename" value="aleph.png"></input>
+  <br /><br />
+  <button onclick="deleteFile()">Delete file</button>
+</body>
+</html>
