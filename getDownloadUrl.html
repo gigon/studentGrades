@@ -1,0 +1,40 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "studentgrades-8101e.appspot.com",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+      
+  function getDownloadUrl() {
+    document.querySelector('img').src = '';
+
+    var filename = document.getElementById('txtFilename').value;
+    // we can write:
+    // var pathReference = firebase.storage().ref('images/' + filename);
+    // or:
+    var pathReference = firebase.storage().ref().child('images/' + filename);
+
+    pathReference.getDownloadURL().then(function(downloadUrl) {
+        console.log('downloadUrl is: ' + downloadUrl);
+        document.querySelector('img').src = downloadUrl;
+    });
+  }
+
+</script>
+  <label>File name: </label><input type="text" id="txtFilename" value="aleph.png"></input>
+  <br />
+  <button onclick="getDownloadUrl()">Get Download Url</button>
+  <br />
+  <img src=""/>
+</body>
+</html>
