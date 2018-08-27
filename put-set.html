@@ -1,0 +1,43 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "studentgrades-8101e.appspot.com",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+
+  function putImageAndSet(event) {
+    var file = event.files[0];
+    console.log("Uploading " + file.name);
+
+    var storageRef = firebase.storage().ref();
+    storageRef.child('images/' + file.name).put(file).then(function(snapshot) {
+        // Get the file's Storage URI and save it in realtime database.
+        var fullPath = snapshot.metadata.fullPath;
+        var dbRefImage = firebase.database().ref('/Students/myImage');
+        dbRefImage.set({ name: file.name, url: fullPath }).then(function() {
+            console.log('putImageAndSet: success');
+        }).catch(function onError(err) {
+            console.error('putImageAndSet: error saving data in RTDB: ', error);
+        });
+    }).catch(function(error) {
+        console.error('putImageAndSet: error uploading to Cloud Storage: ', error);
+    });
+  }
+
+</script>
+
+<label>Image: </label>
+<input id="mediaCapture" type="file" accept="image/*,capture=camera" onchange="putImageAndSet(this)"></input>
+  
+</body>
+</html>

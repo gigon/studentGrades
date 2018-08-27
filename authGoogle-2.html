@@ -1,0 +1,59 @@
+<html>
+<body>
+  <input type="text" id="txtVersion" value="?"></input><br />
+  <button onclick="callSignIn()">Sign in</button><br />
+  <button onclick="firebase.auth().signOut()">Sign out</button>
+
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+        authDomain: "studentgrades-8101e.firebaseapp.com",
+        databaseURL: "https://studentgrades-8101e.firebaseio.com",
+        projectId: "studentgrades-8101e",
+        storageBucket: "",
+        messagingSenderId: "168763914375"
+    };
+    firebase.initializeApp(config);
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        document.getElementById("txtVersion").value = '?';
+        if (user) {
+            console.log('onAuthStateChanged signed in user id: ' + user.uid + ' user.isAnonymous=' + user.isAnonymous);
+            readVersionFromDB(); // Try reading from realtime database
+        } else {
+            console.log('onAuthStateChanged user is signed out!');
+        }
+    });
+
+    function callSignIn() {
+        var provider = new firebase.auth.GoogleAuthProvider();    
+        firebase.auth().signInWithRedirect(provider);
+    }
+
+    firebase.auth().getRedirectResult().then(function(result) {
+        if (result.user) { 
+            // returned from oAuth redirect
+            if (result.credential) {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = result.credential.accessToken;
+            }
+            console.log('firebase getRedirectResult user=' 
+                + JSON.stringify(result.user, null, '\t'));
+        }
+    }).catch(function(error) {
+        console.error('firebase getRedirectResult error = '+JSON.stringify(error));
+    });
+
+    function readVersionFromDB() {
+        firebase.database().ref("/Version").once('value').then(function(snap) {
+            console.log("readVersionFromDB: Version = " + snap.val());
+            document.getElementById("txtVersion").value = snap.val();
+        }).catch(function(err) {
+            console.error('readVersionFromDB: ' + JSON.stringify(err));
+        });
+    }
+</script>
+</body>
+</html>

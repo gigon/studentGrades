@@ -1,0 +1,48 @@
+<html>
+<body>
+  <input type="text" id="txtVersion" value="?"></input><br />
+  <button onclick="checkCurrentUser()">Check Current User</button><br />
+
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+        authDomain: "studentgrades-8101e.firebaseapp.com",
+        databaseURL: "https://studentgrades-8101e.firebaseio.com",
+        projectId: "studentgrades-8101e",
+        storageBucket: "",
+        messagingSenderId: "168763914375"
+    };
+    firebase.initializeApp(config);
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            console.log('onAuthStateChanged signed in user id: ' + user.uid
+             + ' user.isAnonymous=' + user.isAnonymous);
+        } else {
+            console.log('onAuthStateChanged user is signed out!');
+        }
+    });
+
+    function checkCurrentUser() {
+        if (firebase.auth().currentUser) {
+            console.log("checkCurrentUser currentUser.uid = " 
+                + firebase.auth().currentUser.uid);
+            readVersionFromDB(); // Try reading from realtime database
+        } else {
+            console.log('checkCurrentUser: firebase auth no current user!');
+        }
+    }
+
+    function readVersionFromDB() {
+        firebase.database().ref("/Version").once('value').then(function(snap) {
+            console.log("readVersionFromDB: Version = " + snap.val());
+            document.getElementById("txtVersion").value = snap.val();
+        }).catch(function(err) {
+            console.error('readVersionFromDB: ' + JSON.stringify(err));
+        });
+    }
+</script>
+</body>
+</html>

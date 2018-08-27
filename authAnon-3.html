@@ -1,0 +1,31 @@
+<html>
+<body>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+        authDomain: "studentgrades-8101e.firebaseapp.com",
+        databaseURL: "https://studentgrades-8101e.firebaseio.com",
+        projectId: "studentgrades-8101e",
+        storageBucket: "",
+        messagingSenderId: "168763914375"
+    };
+    firebase.initializeApp(config);
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            console.log('firebase auth signed in user id: ' + user.uid);
+            firebase.auth().signOut().then(function() {
+                console.log('Called signOut!');
+            }).catch(function(err) {
+                console.error('signOut error: ' + err);
+            });
+        } else {
+            console.log('firebase auth user is signed out!');
+        }
+    });
+
+</script>
+</body>
+</html>
