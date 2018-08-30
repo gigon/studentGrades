@@ -1,0 +1,41 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+  
+  var studentsRef = firebase.database().ref('Students');
+
+  studentsRef.on('value', function(snap) {
+    console.log("studentsRef value changed to " + JSON.stringify(snap.val()));
+  });
+
+  studentsRef.on('child_added', function(snap) {
+    console.log("studentsRef child_added snap.val=" + JSON.stringify(snap.val()));
+  });
+
+  studentsRef.on('child_removed', function(snap) {
+    console.log("studentsRef child_removed snap.val=" + JSON.stringify(snap.val()));
+  });
+
+  studentsRef.on('child_changed', function(snap) {
+    console.log("studentsRef child_changed snap.val=" + JSON.stringify(snap.val()));
+  });
+
+  studentsRef.on('child_moved', function(snap) {
+    console.log("studentsRef child_moved snap.val=" + JSON.stringify(snap.val()));
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+  
+  var studentsRefByHTML = firebase.database().ref('Students').orderByChild('//HTML').limitToFirst(2);
+
+  studentsRefByHTML.on('child_added', function(snap) {
+    console.log("studentsRefByHTML child_added snap.val=" + JSON.stringify(snap.val()));
+  });
+
+  studentsRefByHTML.on('child_removed', function(snap) {
+    console.log("studentsRefByHTML child_removed snap.val=" + JSON.stringify(snap.val()));
+  });
+
+  var studentsRefByHTML_last = firebase.database().ref('Students').orderByChild('//HTML').limitToLast(2);
+
+  studentsRefByHTML_last.on('child_added', function(snap) {
+    console.log("studentsRefByHTML_last child_added snap.val=" + JSON.stringify(snap.val()));
+  });
+
+  studentsRefByHTML_last.on('child_removed', function(snap) {
+    console.log("studentsRefByHTML_last child_removed snap.val=" + JSON.stringify(snap.val()));
+  });
+
+</script>
+</body>
+</html>
