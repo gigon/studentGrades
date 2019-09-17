@@ -25,6 +25,7 @@
     var dbRefStudents = firebase.database().ref().child('Students');
     var dbNewStudentRef = dbRefStudents.push();
     console.log("addStudent: after push, dbNewStudentRef is: " + dbNewStudentRef.toString());
+    console.log("... and the generated key is: " + dbNewStudentRef.key);
     
     dbNewStudentRef.set({ "name": name, "CSS": css, "HTML": html, "React": react });
   }

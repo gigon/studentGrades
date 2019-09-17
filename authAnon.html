@@ -15,11 +15,17 @@
     };
     firebase.initializeApp(config);
 
-    firebase.auth().onAuthStateChanged(function(user) {
+    var database = firebase.database();
+    var storage = firebase.storage();
+    var auth = firebase.auth();
+
+    auth.onAuthStateChanged(function(user) {
         if (user) {
+            document.title = "LOGGED IN";
             console.log('firebase auth signed in user id: ' + user.uid
              + ' user.isAnonymous=' + user.isAnonymous);
         } else {
+            document.title = "NOT LOGGED IN";
             console.log('firebase auth user is signed out!');
         }
 

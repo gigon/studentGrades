@@ -1,0 +1,43 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+  
+  var studentsRef = firebase.database().ref('Students');
+
+  studentsRef.once('value', function(snap) {
+    snap.forEach(student => {
+      printGrades(student);
+    });
+  });
+
+  function printGrades(student) {
+    var name = student.child("name").val(), key = student.key;
+
+    var studentGrades = studentsRef.child(key);
+    studentGrades.on('child_added', function(snap) {
+      console.log(name + ' studentGrades child_added: ' + snap.key + ': ' + JSON.stringify(snap.val()));
+    });
+
+    var studentGradesByValue = studentsRef.child(key).orderByValue();
+    studentGradesByValue.on('child_added', function(snap) {
+      console.log(name + ' studentGradesByValue child_added: '
+       + snap.key + ': ' + JSON.stringify(snap.val()));
+    });
+  }
+
+</script>
+</body>
+</html>

@@ -23,15 +23,15 @@
     document.getElementById("txtVersion").value = version;
   } );
 
-  var debiCssRef = firebase.database().ref().child('Students/Debi/CSS');
+  var debiCssRef = firebase.database().ref().child('Students/Rivka/CSS');
   debiCssRef.on('value', function(snap) {
     var css = snap.val();
-    console.log("Debi css changed to " + css);
+    console.log("Rivka css changed to " + css);
   } );
 
   debiCssRef.on('value', function(snap) {
     var css = snap.val();
-    console.log("Yes, Debi css changed to " + css);
+    console.log("Yes, Rivka css changed to " + css);
   } );
 
 </script>

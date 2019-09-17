@@ -21,8 +21,16 @@
 
     var storage = firebase.storage();
     var storageRef = storage.ref();
+    
     var imageRef = storageRef.child('images/' + file.name);
+    
+    // simple form:
     imageRef.put(file);
+
+    // with a promise:
+    // imageRef.put(file).then(function (snapshot) {
+    //   console.log('uploaded the image')
+    // });
   }
 
 </script>

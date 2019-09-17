@@ -1,0 +1,28 @@
+<html>
+    <head>
+
+<script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC1e1uesp__4AV8W9589IPLAHxIIymFtGc",
+    authDomain: "carmel6000-7dab2.firebaseapp.com",
+    databaseURL: "https://carmel6000-7dab2.firebaseio.com",
+    projectId: "carmel6000-7dab2",
+    storageBucket: "carmel6000-7dab2.appspot.com",
+    messagingSenderId: "584569347195"
+  };
+  firebase.initializeApp(config);
+
+  var ref = firebase.database();
+  var versionRef = ref.child('Version');
+  var studentsRef = ref.child('Students');
+  var avrahamRef = studentsRef.child('avraham');
+  var studentsRef2 = avrahamRef.parent();
+
+  var avrahamRef2 = ref.child('Students/avraham');
+</script>           
+    </head>
+    <body>
+    </body>
+</html>

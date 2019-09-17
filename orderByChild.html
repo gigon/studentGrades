@@ -15,29 +15,37 @@
   };
   firebase.initializeApp(config);
   
-  var studentsRefByName = firebase.database().ref('Students').orderByChild('//name');
+  // var studentsRefByName = firebase.database().ref('Students').orderByChild('//name');
 
-  studentsRefByName.on('value', function(snap) {
-    console.log("studentsRefByName value changed to " + JSON.stringify(snap.val()));
-  });
+  // studentsRefByName.on('value', function(snap) {
+  //   console.log("studentsRefByName value changed to " + JSON.stringify(snap.val()));
+  // });
 
-  studentsRefByName.on('child_added', function(snap) {
-    console.log("studentsRefByName child_added snap.val=" + JSON.stringify(snap.val()));
-  });
+  // studentsRefByName.on('child_added', function(snap) {
+  //   console.log("studentsRefByName child_added snap.val=" + JSON.stringify(snap.val()));
+  // });
 
-  var studentsRefByHTML = firebase.database().ref('Students').orderByChild('//HTML');
+  var studentsRefByHTML = firebase.database().ref('Students');
+  studentsRefByHTML.orderByChild('//HTML');
+  studentsRefByHTML.limitToFirst(2);
 
-  studentsRefByHTML.on('value', function(snap) {
-    console.log("studentsRefByHTML value changed to " + JSON.stringify(snap.val()));
-  });
+  // studentsRefByHTML.on('value', function(snap) {
+  //   console.log("studentsRefByHTML value changed to " + JSON.stringify(snap.val()));
+  // });
 
   studentsRefByHTML.on('child_added', function(snap) {
     console.log("studentsRefByHTML child_added snap.val=" + JSON.stringify(snap.val()));
   });
 
-  studentsRefByHTML.on('child_moved', function(snap) {
-    console.log("studentsRefByHTML child_moved snap.val=" + JSON.stringify(snap.val()));
+  // studentsRefByHTML.on('child_moved', function(snap) {
+  //   console.log("studentsRefByHTML child_moved snap.val=" + JSON.stringify(snap.val()));
+  // });
+
+  studentsRefByHTML.on('child_changed', function(snap) {
+  //  console.log("studentsRefByHTML child_changed snap.val=" + JSON.stringify(snap.val()));
   });
+
+//  var studentsRefByFrench = firebase.database().ref('Students').orderByChild('Scores/French');
 
 </script>
 </body>

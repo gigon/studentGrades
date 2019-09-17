@@ -20,17 +20,21 @@
     console.log("Setting " + name);
     
     var newStudentGrades = {};
-    if (!isNaN(document.getElementById('txtCSS').value)) {
+    if (!isNaN(parseInt(document.getElementById('txtCSS').value))) {
       newStudentGrades["CSS"] = parseInt(document.getElementById('txtCSS').value);
     }
-    if (!isNaN(document.getElementById('txtHtml').value)) {
+    if (!isNaN(parseInt(document.getElementById('txtHtml').value))) {
       newStudentGrades["HTML"] = parseInt(document.getElementById('txtHtml').value);
     }
-    if (!isNaN(document.getElementById('txtReact').value)) {
+    if (!isNaN(parseInt(document.getElementById('txtReact').value))) {
       newStudentGrades["React"] = parseInt(document.getElementById('txtReact').value);
     }
     
-    var dbRefStudent = firebase.database().ref().child('Students').child(name);
+    //-var dbRefStudent = firebase.database().ref().child('Students').child(name);
+    // OR (same result):
+    var dbRefStudent = firebase.database().ref().child('Students/' + name);
+
+    dbRefStudent.set(newStudentGrades).catch(err => alert('oy'));
 
     // set
     dbRefStudent.set(newStudentGrades);

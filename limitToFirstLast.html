@@ -15,17 +15,19 @@
   };
   firebase.initializeApp(config);
   
-  var studentsRefByHTML = firebase.database().ref('Students').orderByChild('//HTML').limitToFirst(2);
+  // var studentsRefByHTML = firebase.database()
+  //   .ref('Students').orderByChild('//HTML').limitToFirst(2);
 
-  studentsRefByHTML.on('child_added', function(snap) {
-    console.log("studentsRefByHTML child_added snap.val=" + JSON.stringify(snap.val()));
-  });
+  // studentsRefByHTML.on('child_added', function(snap) {
+  //   console.log("studentsRefByHTML child_added snap.val=" + JSON.stringify(snap.val()));
+  // });
 
-  studentsRefByHTML.on('child_removed', function(snap) {
-    console.log("studentsRefByHTML child_removed snap.val=" + JSON.stringify(snap.val()));
-  });
+  // studentsRefByHTML.on('child_removed', function(snap) {
+  //   console.log("studentsRefByHTML child_removed snap.val=" + JSON.stringify(snap.val()));
+  // });
 
-  var studentsRefByHTML_last = firebase.database().ref('Students').orderByChild('//HTML').limitToLast(2);
+  var studentsRefByHTML_last = firebase.database().
+    ref('Students').orderByChild('//HTML').limitToLast(2);
 
   studentsRefByHTML_last.on('child_added', function(snap) {
     console.log("studentsRefByHTML_last child_added snap.val=" + JSON.stringify(snap.val()));

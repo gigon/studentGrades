@@ -1,0 +1,30 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+        authDomain: "studentgrades-8101e.firebaseapp.com",
+        databaseURL: "https://studentgrades-8101e.firebaseio.com",
+        projectId: "studentgrades-8101e",
+        storageBucket: "",
+        messagingSenderId: "168763914375"
+    };
+    firebase.initializeApp(config);
+    
+    var dinosaurs = firebase.database().ref('dinosaurs').orderByChild('height');
+    dinosaurs.on('child_added', function(snap) { 
+        console.log(snap.key + ' ' + JSON.stringify(snap.val())); 
+    });
+
+    var dinosaurScores = firebase.database().ref('scores').orderByValue();
+    dinosaurScores.on('child_added', function(snap) { 
+        console.log(snap.key + ' ' + snap.val()); 
+    });
+
+</script>
+</body>
+</html>

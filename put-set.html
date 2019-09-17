@@ -1,43 +1,56 @@
 <html>
+
 <head>
-<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
 </head>
+
 <body>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
-    authDomain: "studentgrades-8101e.firebaseapp.com",
-    databaseURL: "https://studentgrades-8101e.firebaseio.com",
-    projectId: "studentgrades-8101e",
-    storageBucket: "studentgrades-8101e.appspot.com",
-    messagingSenderId: "168763914375"
-  };
-  firebase.initializeApp(config);
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+      authDomain: "studentgrades-8101e.firebaseapp.com",
+      databaseURL: "https://studentgrades-8101e.firebaseio.com",
+      projectId: "studentgrades-8101e",
+      storageBucket: "studentgrades-8101e.appspot.com",
+      messagingSenderId: "168763914375"
+    };
+    firebase.initializeApp(config);
 
-  function putImageAndSet(event) {
-    var file = event.files[0];
-    console.log("Uploading " + file.name);
+    function putImageAndSet(event) {
+      var file = event.files[0], 
+        toPath = 'images/' + file.name;
+      console.log(`Uploading ${file.name} to ${toPath}`);
 
-    var storageRef = firebase.storage().ref();
-    storageRef.child('images/' + file.name).put(file).then(function(snapshot) {
-        // Get the file's Storage URI and save it in realtime database.
-        var fullPath = snapshot.metadata.fullPath;
-        var dbRefImage = firebase.database().ref('/Students/myImage');
-        dbRefImage.set({ name: file.name, url: fullPath }).then(function() {
-            console.log('putImageAndSet: success');
-        }).catch(function onError(err) {
-            console.error('putImageAndSet: error saving data in RTDB: ', error);
+      var storageRef = firebase.storage().ref();
+      storageRef.child(toPath).put(file).then(function (snapshot) {
+        console.log(`snapshot.metadata=${JSON.stringify(snapshot.metadata, 0, '\t')}`);
+
+        // (we could call getDownloadURL also from snapshot.ref:)
+        //- snapshot.ref.getDownloadURL().then(downloadUrl => {
+
+        // Get the file's Download URI and save it in realtime database.
+        storageRef.child(toPath).getDownloadURL().then(downloadUrl => {
+          var dbRefImage = firebase.database().ref('/Students/Logo');
+          dbRefImage.set({ name: file.name, url: downloadUrl }).then(function () {
+            console.log(`putImageAndSet: success!  downloadUrl=${downloadUrl}`);
+          }).catch(function onError(err) {
+            console.error(`putImageAndSet: error saving data in RTDB: ${err}`);
+          });
+        }).catch(function (err) {
+          console.error(`putImageAndSet: error getting downloadUrl: ${err}`);
         });
-    }).catch(function(error) {
-        console.error('putImageAndSet: error uploading to Cloud Storage: ', error);
-    });
-  }
 
-</script>
+      }).catch(function (err) {
+        console.error(`putImageAndSet: error uploading to Cloud Storage: ${err}`);
+      });
+    }
 
-<label>Image: </label>
-<input id="mediaCapture" type="file" accept="image/*,capture=camera" onchange="putImageAndSet(this)"></input>
-  
+  </script>
+
+  <label>Image: </label>
+  <input id="mediaCapture" type="file" accept="image/*,capture=camera" onchange="putImageAndSet(this)"></input>
+
 </body>
+
 </html>

@@ -29,20 +29,22 @@
       } else {
         console.log("addStudent push done");
 
-        // ...oops.. this line will not work (why?):
-        dbNewStudentRef.set({ "name": name, "CSS": css, "HTML": html, "React": react });
+        // ...oops.. this line will not work (why?   (*)):
+        //-dbNewStudentRef.set({ "name": name, "CSS": css, "HTML": html, "React": react }); 
+
+        // (*) because when push is not given a value, the callback is not called.
       }
     });
 
     console.log("addStudent: after push, dbNewStudentRef is: " + dbNewStudentRef.toString());
 
-    // dbNewStudentRef.set({ "name": name, "CSS": css, "HTML": html, "React": react }, function onComplete(error) {
-    // if (error) {
-    //     console.error("addStudent set failed with " + error);
-    //   } else {
-    //     console.log("addStudent set done");
-    //   }
-    // });
+    dbNewStudentRef.set({ "name": name, "CSS": css, "HTML": html, "React": react }, function onComplete(error) {
+    if (error) {
+        console.error("addStudent set failed with " + error);
+      } else {
+        console.log("addStudent set done");
+      }
+    });
   }
 
 </script>

@@ -1,0 +1,74 @@
+<html>
+
+<head>
+  <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+
+<body>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+      authDomain: "studentgrades-8101e.firebaseapp.com",
+      databaseURL: "https://studentgrades-8101e.firebaseio.com",
+      projectId: "studentgrades-8101e",
+      storageBucket: "studentgrades-8101e.appspot.com",
+      messagingSenderId: "168763914375"
+    };
+    firebase.initializeApp(config);
+
+    // This example is the same as put-set.html, 
+    // but with the async-await+ try-catch syntax
+
+    async function putImageAndSet(event) {
+      var file = event.files[0],
+        toPath = 'images/' + file.name;
+      console.log(`Uploading ${file.name} to ${toPath}`);
+
+      var storagePathRef = firebase.storage().ref().child(toPath);
+
+      var snapshot;
+      try {
+        snapshot = await storagePathRef.put(file)
+      } catch (err) {
+        console.error(`putImageAndSet: error uploading to Cloud Storage: ${err}`);
+        return;
+      }
+      
+      // Or another syntax (but must check snapshot after await call):
+      // var snapshot = await storagePathRef.put(file)
+      //   .catch(err => {
+      //     console.error(`putImageAndSet: error uploading to Cloud Storage: ${err}`);
+      //   })
+      // if (!snapshot) {
+      //   return;
+      // }
+
+      // Get the file's Download URI and save it in realtime database.
+      console.log(`snapshot.metadata=${JSON.stringify(snapshot.metadata, 0, '\t')}`);
+
+      var downloadUrl;
+      try {
+        downloadUrl = await snapshot.ref.getDownloadURL();        
+      } catch (err) {
+        console.error(`putImageAndSet: error getting DownloadURL: ${err}`);
+        return;        
+      }
+
+      var dbRefImage = firebase.database().ref('/Students/Logo');
+      try {
+        await dbRefImage.set({ name: file.name, url: downloadUrl });        
+        console.log(`putImageAndSet: success!  downloadUrl=${downloadUrl}`);        
+      } catch (err) {
+        console.error(`putImageAndSet: error saving data in RTDB: ${err}`);
+      }
+    }
+
+  </script>
+
+  <label>Image: </label>
+  <input id="mediaCapture" type="file" accept="image/*,capture=camera" onchange="putImageAndSet(this)"></input>
+
+</body>
+
+</html>

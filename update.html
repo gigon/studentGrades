@@ -20,13 +20,13 @@
     console.log("Updating " + name);
     
     var newStudentGrades = {};
-    if (!isNaN(document.getElementById('txtCSS').value)) {
+    if (!isNaN(parseInt(document.getElementById('txtCSS').value))) {
       newStudentGrades["CSS"] = parseInt(document.getElementById('txtCSS').value);
     }
-    if (!isNaN(document.getElementById('txtHtml').value)) {
+    if (!isNaN(parseInt(document.getElementById('txtHtml').value))) {
       newStudentGrades["HTML"] = parseInt(document.getElementById('txtHtml').value);
     }
-    if (!isNaN(document.getElementById('txtReact').value)) {
+    if (!isNaN(parseInt(document.getElementById('txtReact').value))) {
       newStudentGrades["React"] = parseInt(document.getElementById('txtReact').value);
     }
 

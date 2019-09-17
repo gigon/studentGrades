@@ -1,0 +1,52 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "studentgrades-8101e.appspot.com",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+
+  function putImageString() {
+    var name = document.getElementById('txtName').value
+    var imageString = document.getElementById('txtImage').value
+    var format = document.getElementById('txtFormat').value
+
+    putImage(name, imageString, format);
+  }
+
+  function putImage(name, imageString, format) {
+
+    var storage = firebase.storage();
+    var storageRef = storage.ref();
+    
+    var imageRef = storageRef.child('images/' + name);
+    
+    // simple form:
+//    imageRef.putString(imageString, format);
+
+    // with a promise:
+    imageRef.putString(imageString).then(function (snapshot) {
+      console.log('uploaded the image')
+    })
+    .catch(err => console.error(`oops: ${JSON.stringify(err)}`));
+  }
+
+</script>
+
+    <label>Name: </label><input type="text" id="txtName" value="imageX"></input><br />
+    <label>Image as string: </label><input type="text" id="txtImage" value="5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB"></input><br />
+    <label>String format: </label><input type="text" id="txtFormat" value="base64"></input><br />
+
+    <button onclick="putImageString()">upload image data</button>
+  
+</body>
+</html>

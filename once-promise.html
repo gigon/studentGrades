@@ -15,21 +15,20 @@
   };
   firebase.initializeApp(config);
   
-  // ref to database root:
-//-  var dbRef = firebase.database().ref();
+  var dbRef = firebase.database().ref();
 
-  // ref to the "Version" leaf (by path):
-  var versionRef = firebase.database().ref("/Version")
+  // then and catch (delete read permission on rtdb to see catch)
+  dbRef.once('value').then(function(snap) { 
+    console.log("once: " + JSON.stringify(snap.val())); 
+  }).catch(function(err) {
+    console.error("once: " + err.message + " code=" + err.code);
+  });
 
-  versionRef.once('value', function(snap) {
-      var version = snap.val();
-      document.getElementById("txtVersion").value = version;
-      console.log("snapshot key=" + snap.key);
-    }
-  );
-
-  dbRef.once('value', function(snap) { 
-    console.log(snap.val()); 
+  // then and catch ES6 style 
+  dbRef.once('value').then(snap => { 
+    console.log("once 2: " + JSON.stringify(snap.val())); 
+  }).catch(err => {
+    console.error("once 2: " + err.message + " code=" + err.code);
   });
 
 </script>

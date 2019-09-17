@@ -1,0 +1,50 @@
+<html>
+<body>
+  <input type="text" id="txtVersion" value="?"></input>
+
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+  
+  getDatabaseRootRef()
+  .then(snap => getVersion(snap.ref))
+  .then(snap => printSnapshotVal('Version', snap))
+  .catch(err => {
+    console.error("once chain: " + err.message + " code=" + err.code);
+  });
+
+  // returns a Promise that resolves with a snapshot of the db root
+  function getDatabaseRootRef() {
+    console.log('Enter getDatabaseRootRef');
+    var dbRef = firebase.database().ref();
+    return dbRef.once('value');
+  }
+
+  // accepts a firebase rtdb ref object of the db root
+  // returns a Promise that resolves with a snapshot of the 
+  // child at path "/Version"
+  function getVersion(parentRef) {
+    console.log('Enter getVersion');
+    var versionRef = parentRef.child('Version');
+    return versionRef.once('value');
+  }
+
+  // accepts a string desc and a firebase snapshot a node
+  // logs out the desc and the value of the snapshot
+  function printSnapshotVal(desc, snap) {
+    console.log('Enter printSnapshotVal');
+    console.log('==> ' + desc + ': ' + snap.val());
+  }
+
+</script>
+</body>
+</html>
