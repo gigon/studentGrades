@@ -1,0 +1,69 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAsEw6Io6qj5bGXQdGAaYsoOYp9HiahYWs",
+    authDomain: "studentgrades-8101e.firebaseapp.com",
+    databaseURL: "https://studentgrades-8101e.firebaseio.com",
+    projectId: "studentgrades-8101e",
+    storageBucket: "",
+    messagingSenderId: "168763914375"
+  };
+  firebase.initializeApp(config);
+      
+  function addStudent(){
+    var name = document.getElementById('txtNewStudentName').value;
+    var css = parseInt(document.getElementById('txtCSS').value || '0');
+    var html = parseInt(document.getElementById('txtHtml').value || '0');
+    var react = parseInt(document.getElementById('txtReact').value || '0');
+    console.log("Adding " + name + " with css: " + css + " html: " + html + " react: " + react + "...");
+
+    var newStudent = { "name": name, "CSS": css, "HTML": html, "React": react };
+    
+    var dbRefStudents = firebase.database().ref().child('Students');
+    dbRefStudents.push(newStudent, function onComplete(error) {
+      if (error) {
+        console.error("addStudent push failed with " + error);
+      } else {
+        console.log("addStudent push done");
+        incrementStudentsCount();
+      }
+    });
+  }
+
+  function incrementStudentsCount() {
+    var refCount = firebase.database().ref().child('StudentsCount');
+    
+    refCount.transaction(
+      function(currentData) {
+        if (!isNaN(currentData)) {
+          return currentData + 1;
+        }
+      }, 
+      function onComplete(err, didCommit, snapshot) {
+        if (err) {
+          console.error(`Oops: unexpected error: ${err}`)
+        } else if (!didCommit) {
+          console.error(`Transaction aborted!`)
+        } else {
+          console.log(`Student count was incremented`)
+        }
+        console.log(`New student count: ${snapshot.val()}`);
+      }
+    )
+  }
+
+</script>
+  <label>Name: </label><input type="text" id="txtNewStudentName" value="(newStudentName)"></input><br />
+  <label>CSS: </label><input type="text" id="txtCSS" value="0"></input><br />
+  <label>HTML: </label><input type="text" id="txtHtml" value="0"></input><br />
+  <label>React: </label><input type="text" id="txtReact" value="0"></input><br />
+
+  <button onclick="addStudent()">add student</button>
+
+</body>
+</html>
