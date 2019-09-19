@@ -1,0 +1,10 @@
+{
+  "rules": {
+    ".read": true,
+    "Students": {
+      "96b3add8-60c1-4a3c-b12a-7076d5360359": {
+        ".write": true
+      }
+    }
+  }
+}
