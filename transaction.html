@@ -39,10 +39,8 @@
     var refCount = firebase.database().ref().child('StudentsCount');
     
     refCount.transaction(
-      function(currentData) {
-        if (!isNaN(currentData)) {
-          return currentData + 1;
-        }
+      function update(currentData) {
+        return (currentData || 0) + 1;
       }, 
       function onComplete(err, didCommit, snapshot) {
         if (err) {
